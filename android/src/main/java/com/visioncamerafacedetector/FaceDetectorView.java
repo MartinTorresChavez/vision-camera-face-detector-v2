@@ -1,11 +1,10 @@
 package com.visioncamerafacedetector;
 
-import android.content.Context;
+
 import android.view.View;
 import com.facebook.jni.HybridData;
 import com.facebook.jni.annotations.DoNotStrip;
-
-
+import com.facebook.react.uimanager.ThemedReactContext;
 
 
 public class FaceDetectorView extends View {
@@ -13,12 +12,15 @@ public class FaceDetectorView extends View {
   private final HybridData mHybridData;
 
   @SuppressWarnings("JavaJniMissingFunction")
-  private static native HybridData initHybrid();
+  private static native HybridData initHybrid(long jsRuntimeHolder, Object context);
 
-  public FaceDetectorView(Context context) {
+  public FaceDetectorView(ThemedReactContext context) {
     super(context);
-//    VisionCameraFaceDetectorModule faceDetectorModule = ((ReactContext) context).getNativeModule(VisionCameraFaceDetectorModule.class);
-      mHybridData = initHybrid();
+      var jsRuntimeHolder = context.getJavaScriptContextHolder();
+      if (jsRuntimeHolder == null) {
+        throw new IllegalStateException("JS runtime holder is not available");
+      }
+      mHybridData = initHybrid(jsRuntimeHolder.get(), context);
   }
 
 }
