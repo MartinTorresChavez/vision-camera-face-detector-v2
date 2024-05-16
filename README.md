@@ -1,17 +1,17 @@
-# react-native-vision-camera-face-detector
+# vision-camera-face-detector
 
 VisionCamera Frame Processor Plugin to detect faces and facial landmarks
 
 ## Installation
 
 ```sh
-npm install react-native-vision-camera-face-detector
+npm install vision-camera-face-detector
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'react-native-vision-camera-face-detector';
+import { multiply } from 'vision-camera-face-detector';
 
 // ...
 

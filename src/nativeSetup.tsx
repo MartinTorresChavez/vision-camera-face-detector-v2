@@ -1,9 +1,7 @@
-import { NativeModules, Platform, requireNativeComponent } from 'react-native';
-
-const FaceDetectorView = requireNativeComponent('FaceDetectorView');
+import { NativeModules, Platform } from 'react-native';
 
 const LINKING_ERROR =
-  `The package 'react-native-vision-camera-face-detector' doesn't seem to be linked. Make sure: \n\n` +
+  `The package 'vision-camera-face-detector' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
@@ -26,8 +24,10 @@ const VisionCameraFaceDetector = VisionCameraFaceDetectorModule
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return VisionCameraFaceDetector.multiply(a, b);
-}
-
-export { FaceDetectorView };
+(() => {
+  console.log(
+    'calling visioncamerafacedetector.install() -->',
+    VisionCameraFaceDetector.install
+  );
+  VisionCameraFaceDetector.install();
+})();

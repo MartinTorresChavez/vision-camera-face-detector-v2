@@ -54,6 +54,7 @@ endif()
 add_library(${PACKAGE_NAME}
             SHARED
             ../cpp/JniOnLoad.cpp
+            ../cpp/FaceDetectorView.cpp
 )
 
 target_include_directories(

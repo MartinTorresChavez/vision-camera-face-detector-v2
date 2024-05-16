@@ -66,7 +66,7 @@ static def findNodeModules(baseDir) {
     }
     basePath = basePath.getParent()
   }
-  throw new GradleException("react-native-vision-camera-face-detector: Failed to find node_modules/ path!")
+  throw new GradleException("vision-camera-face-detector: Failed to find node_modules/ path!")
 }
 
 

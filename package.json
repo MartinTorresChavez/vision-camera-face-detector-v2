@@ -1,5 +1,5 @@
 {
-  "name": "react-native-vision-camera-face-detector",
+  "name": "vision-camera-face-detector",
   "version": "0.1.0",
   "description": "VisionCamera Frame Processor Plugin to detect faces and facial landmarks",
   "main": "lib/commonjs/index",

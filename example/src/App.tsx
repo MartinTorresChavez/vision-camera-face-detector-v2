@@ -1,21 +1,12 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import {
-  multiply,
-  FaceDetectorView,
-} from 'react-native-vision-camera-face-detector';
+import { StyleSheet, Text, View } from 'react-native';
+import { FaceDetectorView } from 'vision-camera-face-detector';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
-
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>AEEEEEEEEEEE</Text>
       <FaceDetectorView />
     </View>
   );
