@@ -15,7 +15,6 @@ find_package(fbjni REQUIRED CONFIG)
 
 
 add_library(raylib SHARED
-    ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../externals/raylib/src/rcore.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../externals/raylib/src/rmodels.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../externals/raylib/src/rshapes.c
@@ -55,8 +54,6 @@ add_library(${PACKAGE_NAME}
             SHARED
             ../cpp/JniOnLoad.cpp
             ../cpp/FaceDetectorView.cpp
-            ../cpp/JSurfaceView.cpp
-            ../cpp/JSurfaceHolder.cpp
 )
 
 target_include_directories(

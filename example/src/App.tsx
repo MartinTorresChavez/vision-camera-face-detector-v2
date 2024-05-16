@@ -7,7 +7,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>AEEEEEEEEEEE</Text>
-      <FaceDetectorView />
+      <FaceDetectorView
+        style={{ borderWidth: 1, width: 100, minHeight: 100 }}
+      />
     </View>
   );
 }
