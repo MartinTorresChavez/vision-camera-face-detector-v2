@@ -1,5 +1,6 @@
 package com.visioncamerafacedetector;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.facebook.react.bridge.NativeModule;
@@ -7,8 +8,11 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.module.model.ReactModuleInfo;
 import com.facebook.react.module.model.ReactModuleInfoProvider;
 import com.facebook.react.TurboReactPackage;
+import com.facebook.react.uimanager.ViewManager;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class VisionCameraFaceDetectorPackage extends TurboReactPackage {
@@ -21,6 +25,14 @@ public class VisionCameraFaceDetectorPackage extends TurboReactPackage {
     } else {
       return null;
     }
+  }
+
+  @NonNull
+  @Override
+  public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactContext) {
+    return List.of(
+            new FaceDetectorViewManager()
+    );
   }
 
   @Override

@@ -1,4 +1,6 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules, Platform, requireNativeComponent } from 'react-native';
+
+const FaceDetectorView = requireNativeComponent('FaceDetectorView');
 
 const LINKING_ERROR =
   `The package 'react-native-vision-camera-face-detector' doesn't seem to be linked. Make sure: \n\n` +
@@ -27,3 +29,5 @@ const VisionCameraFaceDetector = VisionCameraFaceDetectorModule
 export function multiply(a: number, b: number): Promise<number> {
   return VisionCameraFaceDetector.multiply(a, b);
 }
+
+export { FaceDetectorView };

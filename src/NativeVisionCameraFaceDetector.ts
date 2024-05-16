@@ -5,4 +5,6 @@ export interface Spec extends TurboModule {
   multiply(a: number, b: number): Promise<number>;
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('VisionCameraFaceDetector');
+export default TurboModuleRegistry.getEnforcing<Spec>(
+  'VisionCameraFaceDetector'
+);
