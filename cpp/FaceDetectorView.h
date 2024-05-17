@@ -5,12 +5,15 @@
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
 #include <fbjni/detail/CoreClasses.h>
+#include "EGLContextHandler.h"
+#include <thread>
 
 #include "JSurface.h"
 
 namespace FaceDetector {
     using namespace facebook::jni;
     using namespace facebook::jsi;
+    using namespace std;
 
     class FaceDetectorView : public HybridClass<FaceDetectorView> {
     public:
@@ -26,6 +29,7 @@ namespace FaceDetector {
         Runtime *getJSRuntime();
         ANativeWindow* getNativeWindow();
 
+
     private:
         static local_ref<HybridClass<FaceDetectorView>::jhybriddata> initHybrid(alias_ref<jhybridobject> jThis, jlong jsRuntimePointer, alias_ref<JObject> context);
 
@@ -33,6 +37,13 @@ namespace FaceDetector {
         void onSurfaceChanged(alias_ref<JSurface> surface, int width, int height);
         void onSurfaceDestroyed(alias_ref<JSurface> surface);
         void draw();
+        void renderLoop();
+
+
+        std::unique_ptr<EGLContextHandler> _eglHandler;
+        std::thread _renderThread;
+        int _nativeWindowWidth = 0;
+        int _nativeWindowHeight = 0;
 
         Runtime *_runtime;
         global_ref<FaceDetectorView::javaobject> _javaPart;

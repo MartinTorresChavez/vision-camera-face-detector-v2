@@ -1,5 +1,7 @@
 #include "FaceDetectorView.h"
 #include <android/log.h>
+#include "raylib.h"
+#include "EGLContextHandler.h"
 
 #define LOG_TAG "FaceDetectorView"
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
@@ -7,12 +9,15 @@
 namespace FaceDetector {
     using namespace facebook::jni;
 
+
     using TSelf = local_ref<HybridClass<FaceDetectorView>::jhybriddata>;
 
     FaceDetectorView::FaceDetectorView(const alias_ref<FaceDetectorView::jhybridobject> &javaThis,
                                        Runtime *runtime, alias_ref<JObject> context) {
         _javaPart = make_global(javaThis);
         _runtime = runtime;
+        _eglHandler = std::make_unique<EGLContextHandler>();
+
     }
 
     FaceDetectorView::~FaceDetectorView() {
@@ -47,12 +52,21 @@ namespace FaceDetector {
         LOGI("onSurfaceCreated called");
         _nativeWindow = ANativeWindow_fromSurface(facebook::jni::Environment::current(), surface.get());
         LOGI("Native window created: %p", _nativeWindow);
-        draw(); // Draw something on the surface
+
+        if (_eglHandler->initialize(_nativeWindow)) {
+            InitWindow(_eglHandler->getWidth(), _eglHandler->getHeight(), "Raylib on ANativeWindow");
+//            SetTargetFPS(60);
+            _renderThread = std::thread(&FaceDetectorView::renderLoop, this);
+        } else {
+            LOGI("Failed to initialize EGL context");
+        }
     }
+
+
 
     void FaceDetectorView::onSurfaceChanged(alias_ref<JSurface> surface, int width, int height) {
         LOGI("onSurfaceChanged called: width=%d, height=%d", width, height);
-        draw(); // Redraw on the surface with the new size
+        SetWindowSize(width, height);
     }
 
     void FaceDetectorView::onSurfaceDestroyed(alias_ref<JSurface> surface) {
@@ -64,27 +78,13 @@ namespace FaceDetector {
         LOGI("Native window destroyed");
     }
 
-    void FaceDetectorView::draw() {
-        if (!_nativeWindow) {
-            return;
-        }
-
-        ANativeWindow_Buffer buffer;
-        if (ANativeWindow_lock(_nativeWindow, &buffer, nullptr) == 0) {
-            uint32_t* pixels = static_cast<uint32_t*>(buffer.bits);
-            int width = buffer.width;
-            int height = buffer.height;
-            int stride = buffer.stride;
-
-            // Fill the buffer with a solid color (e.g., red)
-            uint32_t color = 0xFFFF0000; // ARGB format: 0xAARRGGBB
-            for (int y = 0; y < height; ++y) {
-                for (int x = 0; x < width; ++x) {
-                    pixels[y * stride + x] = color;
-                }
-            }
-
-            ANativeWindow_unlockAndPost(_nativeWindow);
+    void FaceDetectorView::renderLoop() {
+        while (_nativeWindow) {
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            DrawText("Hello, Raylib!", 10, 10, 20, GREEN);
+            EndDrawing();
         }
     }
+
 }
