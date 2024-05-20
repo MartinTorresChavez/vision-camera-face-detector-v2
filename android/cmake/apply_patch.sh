@@ -4,7 +4,7 @@ echo "patching raylib to use react_native_rcore.c"
 
 TARGET_FILE=$1
 OLD_STRING='#include "platforms/rcore_android.c"'
-NEW_STRING='#include "../../../cpp/react_native_rcore.cpp"'
+NEW_STRING='//#include "platforms/rcore_android.c"'
 
 sed -i '' "s|${OLD_STRING}|${NEW_STRING}|g" "$TARGET_FILE"
 

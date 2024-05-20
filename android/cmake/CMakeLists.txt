@@ -19,47 +19,24 @@ add_custom_target(apply_raylib_patch ALL
     COMMENT "pathing raylib import for android in rcore.c"
 )
 
-add_library(raylib SHARED
+
+add_library(${PACKAGE_NAME}
+        SHARED
+
         ${CMAKE_CURRENT_SOURCE_DIR}/../../externals/raylib/src/rcore.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../../externals/raylib/src/rmodels.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../../externals/raylib/src/rshapes.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../../externals/raylib/src/rtext.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../../externals/raylib/src/rtextures.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../../externals/raylib/src/utils.c
-)
 
-add_dependencies(raylib apply_raylib_patch)
-
-# Define compiler macros for raylib
-target_compile_definitions(raylib PRIVATE
-        GRAPHICS_API_OPENGL_ES2
-        PLATFORM_ANDROID
-        __ANDROID__
-)
-
-target_link_libraries(raylib PRIVATE
-        android
-        log
-        EGL
-        GLESv2
-        OpenSLES
-        dl
-        m
-        c
-)
-
-# raylib: Add specific compilation options based on target Android architecture
-if(CMAKE_ANDROID_ARCH_ABI STREQUAL "armeabi-v7a")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mfloat-abi=softfp -mfpu=vfpv3-d16")
-elseif(CMAKE_ANDROID_ARCH_ABI STREQUAL "arm64-v8a")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mfix-cortex-a53-835769")
-endif()
-
-add_library(${PACKAGE_NAME}
-        SHARED
+        # our custom rcore implementation
         ../../cpp/JniOnLoad.cpp
         ../../cpp/FaceDetectorView.cpp
+        ../../cpp/react_native_rcore.cpp
         ../../cpp/EGLContextHandler.cpp
+        ../../cpp/Global.cpp
+
 )
 
 target_include_directories(
@@ -74,10 +51,18 @@ target_link_libraries(
         ${PACKAGE_NAME}
         android
         log
-        raylib
         EGL
         GLESv2
         ReactAndroid::jsi
         ReactAndroid::reactnativejni
         fbjni::fbjni
+)
+
+add_dependencies(${PACKAGE_NAME} apply_raylib_patch)
+
+# Define compiler macros for raylib
+target_compile_definitions(${PACKAGE_NAME} PRIVATE
+        GRAPHICS_API_OPENGL_ES2
+        PLATFORM_ANDROID
+        __ANDROID__
 )

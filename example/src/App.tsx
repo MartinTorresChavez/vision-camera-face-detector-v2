@@ -8,7 +8,12 @@ export default function App() {
     <View style={styles.container}>
       <Text>AEEEEEEEEEEE</Text>
       <FaceDetectorView
-        style={{ borderWidth: 1, width: 100, minHeight: 100 }}
+        style={{
+          borderWidth: 4,
+          borderStyle: 'solid',
+          width: 200,
+          height: 200,
+        }}
       />
     </View>
   );

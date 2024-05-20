@@ -4,35 +4,35 @@
 
 #pragma once
 
+
 #include <android/native_window.h>
 #include <EGL/egl.h>
 
-namespace FaceDetector {
 
-    class EGLContextHandler {
-    public:
-        EGLContextHandler();
 
-        ~EGLContextHandler();
+class EGLContextHandler {
+public:
+    EGLContextHandler();
 
-        bool initialize(ANativeWindow *nativeWindow);
+    ~EGLContextHandler();
 
-        void terminate();
+    bool initialize(ANativeWindow *nativeWindow);
 
-        void swapBuffers();
+    void terminate();
 
-        int getWidth() const;
+    void swapBuffers();
 
-        int getHeight() const;
+    int getWidth() const;
 
-    private:
-        EGLDisplay _eglDisplay;
-        EGLConfig _eglConfig;
-        EGLSurface _eglSurface;
-        EGLContext _eglContext;
-        int _width;
-        int _height;
-    };
+    int getHeight() const;
+    
+    int _width;
+    int _height;
 
-}
+private:
+    EGLDisplay _eglDisplay;
+    EGLConfig _eglConfig;
+    EGLSurface _eglSurface;
+    EGLContext _eglContext;
 
+};

@@ -7,10 +7,12 @@
 #include <fbjni/detail/CoreClasses.h>
 #include "EGLContextHandler.h"
 #include <thread>
-
 #include "JSurface.h"
 
+
+
 namespace FaceDetector {
+
     using namespace facebook::jni;
     using namespace facebook::jsi;
     using namespace std;
@@ -36,17 +38,13 @@ namespace FaceDetector {
         void onSurfaceCreated(alias_ref<JSurface> surface);
         void onSurfaceChanged(alias_ref<JSurface> surface, int width, int height);
         void onSurfaceDestroyed(alias_ref<JSurface> surface);
-        void draw();
         void renderLoop();
+        void debugDraw();
 
 
         std::unique_ptr<EGLContextHandler> _eglHandler;
         std::thread _renderThread;
-        int _nativeWindowWidth = 0;
-        int _nativeWindowHeight = 0;
-
         Runtime *_runtime;
         global_ref<FaceDetectorView::javaobject> _javaPart;
-        ANativeWindow *_nativeWindow = nullptr;
     };
 }
