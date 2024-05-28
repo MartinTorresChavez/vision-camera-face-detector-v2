@@ -1,6 +1,7 @@
 {
   "name": "vision-camera-face-detector",
   "version": "0.1.0",
+  "private": true,
   "description": "VisionCamera Frame Processor Plugin to detect faces and facial landmarks",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
